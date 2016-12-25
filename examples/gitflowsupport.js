@@ -36,7 +36,7 @@ var graphConfig = new GitGraph.Template({
 var config = {
   template: graphConfig,
   mode: "extended",
-  orientation: "horizontal"
+  orientation: "vertical"
 };
 
 var bugfixCommit = {

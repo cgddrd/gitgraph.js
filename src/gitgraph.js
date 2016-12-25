@@ -1037,6 +1037,7 @@
 
     }
 
+
     // Dot
     this.context.beginPath();
     this.context.arc( this.x, this.y, this.dotSize, 0, 2 * Math.PI, false );
@@ -1059,6 +1060,8 @@
     // Tag
     var tagWidth = this.template.commit.tag.spacingX;
     if ( this.tag !== null ) {
+
+
       this.parent.tagNum++;
       this.context.font = this.tagFont;
       var textWidth = this.context.measureText( this.tag ).width;
@@ -1067,15 +1070,41 @@
       if ((this.parent.orientation.indexOf('horizontal') === 0)) {
         var textHeight = _getFontHeight( this.tagFont );
         _drawTextBG( this.context,
-          this.x - this.dotSize / 2,
+          this.x,
           ((this.parent.columnMax + 1) * this.template.commit.tag.spacingY) - this.template.commit.tag.spacingY / 2 + (this.parent.tagNum % 2) * textHeight * 1.5,
           this.tag, this.tagColor, this.tagFont, 0, this.displayTagBox );
+
+          this.context.globalCompositeOperation='destination-over';
+           this.context.setLineDash([15, 5]);
+           this.context.lineWidth = 2;
+           this.context.beginPath();
+           this.context.moveTo( this.x, this.y );
+           this.context.lineTo( this.x, ((this.parent.columnMax + 1) * this.template.commit.tag.spacingY) - this.template.commit.tag.spacingY / 2 + (this.parent.tagNum % 2) * textHeight * 1.5 );
+           this.context.strokeStyle = '#4c4c4c';
+           this.context.stroke();
+           this.context.setLineDash(0);
+           this.context.globalCompositeOperation='source-over';
+
       } else {
         _drawTextBG( this.context,
           ((this.parent.columnMax + 1) * this.template.commit.tag.spacingX) - this.template.commit.tag.spacingX / 2 + textWidth / 2,
-          this.y - this.dotSize / 2,
+          this.y,
           this.tag, this.tagColor, this.tagFont, 0, this.displayTagBox );
+
+           this.context.globalCompositeOperation='destination-over';
+           this.context.setLineDash([15, 5]);
+           this.context.lineWidth = 2;
+           this.context.beginPath();
+           this.context.moveTo( this.x, this.y );
+           this.context.lineTo(((this.parent.columnMax + 1) * this.template.commit.tag.spacingX) - this.template.commit.tag.spacingX / 2 + textWidth / 2, this.y);
+           this.context.strokeStyle = '#4c4c4c';
+           this.context.stroke();
+           this.context.setLineDash(0);
+           this.context.globalCompositeOperation='source-over';
+
       }
+
+
 
       tagWidth = (tagWidth < textWidth) ? textWidth : tagWidth;
 
